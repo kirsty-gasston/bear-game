@@ -15,10 +15,18 @@ player.y = screenheight-7
 player.width = 7
 player.height = 7
 
+
+--salmon vars
+salmonspr = 0
+salmons = {}
+
 -- game loop
 
 function _init()
 -- this function runs as soon as the game loads
+ for x=1,5 do 
+	 add(salmons, spawnsalmon())
+ end
 end
 
 function _update()
@@ -35,7 +43,17 @@ function _draw()
 	elseif scene==1 then
 		gamedraw()
 	end
+	
 end
+
+-- init functions
+function spawnsalmon() 
+local salmon = {}
+      salmon.x = rnd(screenwidth)
+      salmon.y = rnd((screenheight/4) + (screenheight / 2))
+return salmon
+end
+
 -- update functions
 function titleupdate()
 	if btnp(4) then
@@ -44,10 +62,17 @@ function titleupdate()
 end
 
 function gameupdate()
-	score+=1
+	--score+=1
 	playercontrol()
+	salmonupdate()
 end
 
+function salmonupdate()
+	salmonspr += 1
+	if salmonspr >= 30 then
+		salmonspr = 0
+	end
+end
 -- draw functions
 function titledraw()
 	local titletxt = "bear game"
@@ -59,14 +84,25 @@ function titledraw()
  print(instructtxt, hcenter(instructtxt), (screenheight/4)+(screenheight/3), 14)
  print(instructtxt2, hcenter(instructtxt2), (screenheight/4)+(screenheight/2.5), 14)
 	print(starttxt, hcenter(starttxt), (screenheight/4)+(screenheight/2),12)			
-	
 end
 
 function gamedraw()
 	rectfill(0,0,screenwidth, screenheight, 12)
 	rectfill(0,0,screenwidth, 10, 0)
 	print("score: " .. score, 10, 4, 7)
+	salmondraw()
 	playerdraw()
+end
+
+function salmondraw()
+	for salmon in all(salmons) do 
+	if salmonspr < 15 then
+	 	spr(1, salmon.x, salmon.y)
+	 else 
+	 	spr(2, salmon.x, salmon.y)
+	end
+	end
+	
 end
 
 -- handle button inputs
@@ -124,9 +160,9 @@ end
 __gfx__
 00000000cccccccccccccccc05454540bbbbbbbb000000eeeeeeee00000000000000000000000000000000000000000000000000000000000000000000000000
 00000000cccccccccccccccc45454544bbbbb3b3e0000eeeeeeeeee0000000000000000000000000000000000000000000000000000000000000000000000000
-00700700cccccccccccccccc44444444bbbbbb3bee00eeeeeeeeeeee000000000000000000000000000000000000000000000000000000000000000000000000
+00700700cccccccccdcdcdcc44444444bbbbbb3bee00eeeeeeeeeeee000000000000000000000000000000000000000000000000000000000000000000000000
 00077000dcdcdcdcccdcdcdc44444444bbbbbbbbeeeeeeeeeeeeeeee000000000000000000000000000000000000000000000000000000000000000000000000
-00077000cdcdcdcdcdcdcdcc44444444bbbbbbbbeeeeeeeeeeeeeeee000000000000000000000000000000000000000000000000000000000000000000000000
+00077000cdcdcdcdcccccccc44444444bbbbbbbbeeeeeeeeeeeeeeee000000000000000000000000000000000000000000000000000000000000000000000000
 00700700cccccccccccccccc44444444b3b3bbbbee00eeeeeeeeeeee000000000000000000000000000000000000000000000000000000000000000000000000
 00000000cccccccccccccccc44444444bb3bbbbbe0000eeeeeeeeee0000000000000000000000000000000000000000000000000000000000000000000000000
 00000000cccccccccccccccc44444444bbbbbbbb000000eeeeeeee00000000000000000000000000000000000000000000000000000000000000000000000000
