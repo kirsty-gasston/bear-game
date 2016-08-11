@@ -50,11 +50,16 @@ end
 
 -- draw functions
 function titledraw()
-	local titletxt = "title screen"
+	local titletxt = "bear game"
+ local instructtxt = "catch as many"
+ local instructtxt2 = " salmon as you can!"
 	local starttxt = "press z to start"
-	rectfill(0,0,screenwidth, screenheight, 3)
-	print(titletxt, hcenter(titletxt), screenheight/4, 10)
-	print(starttxt, hcenter(starttxt), (screenheight/4)+(screenheight/2),7)			
+	rectfill(0,0,screenwidth, screenheight, 6)
+	print(titletxt, hcenter(titletxt), screenheight/4, 4)
+ print(instructtxt, hcenter(instructtxt), (screenheight/4)+(screenheight/3), 14)
+ print(instructtxt2, hcenter(instructtxt2), (screenheight/4)+(screenheight/2.5), 14)
+	print(starttxt, hcenter(starttxt), (screenheight/4)+(screenheight/2),12)			
+	
 end
 
 function gamedraw()
