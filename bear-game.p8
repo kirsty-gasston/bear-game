@@ -195,7 +195,7 @@ end
 function endscenedraw()
 	local titletxt = "game over"
 	local starttxt = "press z to restart"
- local scoredtxt = "you scored: "
+ local scoredtxt = "you scored: " .. score
 	rectfill(0,0,screenwidth, screenheight, 6)
 	print(titletxt, hcenter(titletxt), screenheight/4, 4)
 	print (scoredtxt, hcenter(scoredtxt .. score), (screenheight/4)+(screenheight/3), 14)
