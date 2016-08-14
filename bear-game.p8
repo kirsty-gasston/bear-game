@@ -15,6 +15,7 @@ player.y = screenheight-7
 player.width = 7
 player.height = 7
 spd=4
+timer=0
 
 --salmon vars
 salmonspr = 0
@@ -36,6 +37,7 @@ function _update()
 	elseif scene==1 then
 		gameupdate()
 	end
+	timer=timer+0.033
 end
 
 function _draw()
@@ -102,6 +104,7 @@ function gamedraw()
 	rectfill(0,0,screenwidth, screenheight, 12)
 	rectfill(0,0,screenwidth, 10, 0)
 	print("score: " .. score, 10, 4, 7)
+	print("time: " ..flr(timer), 95, 4, 7)
 	map(0,0,0,0,128,32)
 	salmondraw()
 	playerdraw()
