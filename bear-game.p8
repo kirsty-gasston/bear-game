@@ -78,6 +78,7 @@ function salmonupdate()
  for salmon in all(salmons) do 
 	if iscolliding(player,salmon) then
 	 	score+=50
+	--player.y=screenheight-7
 	end
 	end 
 end
@@ -155,13 +156,13 @@ end
 function iscolliding(obj1, obj2)
 	local x1 = obj1.x
 	local y1 = obj1.y
-	local w1 = obj1.w
-	local h1 = obj1.h
+	local w1 = obj1.width
+	local h1 = obj1.height
 	
 	local x2 = obj2.x
 	local y2 = obj2.y
-	local w2 = obj2.w
-	local h2 = obj2.h
+	local w2 = obj2.width
+	local h2 = obj2.height
 
 	if(x1 < (x2 + w2)  and (x1 + w1)  > x2 and y1 < (y2 + h2) and (y1 + h1) > y2) then
 		return true
