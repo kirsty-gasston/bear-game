@@ -23,7 +23,8 @@ salmons = {}
 -- game loop
 
 function _init()
--- this function runs as soon as the game loads
+-- this function runs as soon
+-- as the game loads
  for x=1,5 do 
 	 add(salmons, spawnsalmon())
  end
@@ -64,7 +65,6 @@ function titleupdate()
 end
 
 function gameupdate()
-	--score+=1
 	playercontrol()
 	salmonupdate()
 end
@@ -76,9 +76,10 @@ function salmonupdate()
 	end
 	
  for salmon in all(salmons) do 
-	if iscolliding(player,salmon) then
+	if iscolliding(player,salmon)
+	 then
 	 	score+=50
-	--player.y=screenheight-7
+   player.y=screenheight-7
 	end
 	end 
 end
@@ -131,7 +132,7 @@ end
 
 -- draw player sprite
 function playerdraw()
- rectfill(player.x, screenheight, player.x+7, screenheight-14, 4)
+ rectfill(player.x, screenheight, player.x+7, (screenheight-(screenheight-player.y)-7), 4)
 	spr(3, player.x,player.y-14)
 end
 
@@ -149,8 +150,6 @@ function vcenter(s)
 	-- cut in half and rounded down
 	return (screenheight /2)-flr(5/2)
 end
-
-
 
 --- collision check
 function iscolliding(obj1, obj2)
