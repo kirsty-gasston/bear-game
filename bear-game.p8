@@ -36,6 +36,8 @@ function _update()
 		titleupdate()
 	elseif scene==1 then
 		gameupdate()
+	elseif scene==2 then
+		endsceneupdate()
 	end
 	timer=timer+0.033
 end
@@ -45,6 +47,8 @@ function _draw()
 		titledraw()
 	elseif scene==1 then
 		gamedraw()
+	elseif scene==2 then
+		endscenedraw()
 	end
 	
 end
@@ -69,6 +73,17 @@ end
 function gameupdate()
 	playercontrol()
 	salmonupdate()
+	endsceneupdate()
+end
+
+function endsceneupdate ()
+	if timer >=60 then
+		scene=2
+		timer=0
+	end
+	if btnp(4) then
+		scene=1
+	end
 end
 
 function salmonupdate()
@@ -87,16 +102,18 @@ function salmonupdate()
 end
 -- draw functions
 function titledraw()
-	local titletxt = "bear game"
- local instructtxt = "catch as many"
- local instructtxt2 = " salmon as you can!"
+	local titletxt = "salmon swipe"
+	local instructtxt = "catch as many"
+	local instructtxt2 = " salmon as you can!"
 	local starttxt = "press z to start"
 	rectfill(0,0,screenwidth, screenheight, 6)
 	print(titletxt, hcenter(titletxt), screenheight/4, 4)
- rectfill(0,(screenheight/2.5),45,((screenheight/2.5)+7))
- spr(17,45,(screenheight/2.5))
- print(instructtxt, hcenter(instructtxt), (screenheight/4)+(screenheight/3), 14)
- print(instructtxt2, hcenter(instructtxt2), (screenheight/4)+(screenheight/2.5), 14)
+	rectfill(0,(screenheight/2.5),45,((screenheight/2.5)+7))
+	spr(17,45,(screenheight/2.5))
+	spr(5,80, (screenheight/2.5))
+	spr(6,88, (screenheight/2.5))
+	print(instructtxt, hcenter(instructtxt), (screenheight/4)+(screenheight/3), 14)
+	print(instructtxt2, hcenter(instructtxt2), (screenheight/4)+(screenheight/2.5), 14)
 	print(starttxt, hcenter(starttxt), (screenheight/4)+(screenheight/2),12)			
 end
 
@@ -104,7 +121,7 @@ function gamedraw()
 	rectfill(0,0,screenwidth, screenheight, 12)
 	rectfill(0,0,screenwidth, 10, 0)
 	print("score: " .. score, 10, 4, 7)
-	print("time: " ..flr(timer), 95, 4, 7)
+	print("time: " ..flr(timer), 85, 4, 7)
 	map(0,0,0,0,128,32)
 	salmondraw()
 	playerdraw()
@@ -120,6 +137,16 @@ function salmondraw()
 	end
 end
 
+function endscenedraw()
+	local titletxt = "game over"
+	local starttxt = "press z to restart"
+ local scoredtxt = "you scored: "
+	rectfill(0,0,screenwidth, screenheight, 6)
+	print(titletxt, hcenter(titletxt), screenheight/4, 4)
+	print (scoredtxt, hcenter(scoredtxt .. score), (screenheight/4)+(screenheight/3), 14)
+	print(starttxt, hcenter(starttxt), (screenheight/4)+(screenheight/2),12)			
+end
+
 -- handle button inputs
 function playercontrol()
 	if (btn(0)) then player.x-=spd end
@@ -130,7 +157,7 @@ function playercontrol()
 	if (player.x <= 0) then player.x = 0 end
 	if (player.x >= screenwidth - player.width) then player.x = screenwidth - player.height end
 	if (player.y <= 0) then player.y = 0 end
-	if (player.y >= screenheight - player.height) then player.y = screenheight - player.height end
+	if (player.y >= (screenheight - player.height)+10) then player.y = screenheight - player.height end
 end
 
 -- draw player sprite
@@ -142,7 +169,7 @@ end
 -- library functions
 --- center align from: pico-8.wikia.com/wiki/centering_text
 function hcenter(s)
-	-- string length time			s the 
+	-- string length times the 
 	-- pixels in a char's width
 	-- cut in half and rounded down
 	return (screenwidth / 2)-flr((#s*4)/2)
@@ -172,8 +199,6 @@ function iscolliding(obj1, obj2)
 		return false
 	end
 end
-
-
 __gfx__
 00000000000000000000000005050505bbbbbbbb000000eeeeeeee0000000000bbbbbbbb00000000000000000000000000000000000000000000000000000000
 00000000000000000000000045454545bbbbb3b3e0000eeeeeeeeee030033003bbbb3b3b00000000000000000000000000000000000000000000000000000000
