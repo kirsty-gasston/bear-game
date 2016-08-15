@@ -113,16 +113,6 @@ function salmonupdate()
 		salmonspr = 0
 	end
 	
- for salmon in all(salmons) do 
-		if iscolliding(player,salmon) then
-	 	if salmon.jumping == false then
-   	score-=50
-   	player.y=screenheight-7
-   	sfx(2)
-			end
-		end
-	end
-	
 	for jumpingsalmon in all(jumpingsalmons) do 
 		if iscolliding(player,jumpingsalmon) then
 	 	if jumpingsalmon.jumping == true then
@@ -200,10 +190,10 @@ function endscenedraw()
 	local titletxt = "game over"
 	local starttxt = "press z to restart"
  local scoredtxt = "you scored: " .. score
-	rectfill(0,0,screenwidth, screenheight, 6)
-	print(titletxt, hcenter(titletxt), screenheight/4, 4)
-	print (scoredtxt, hcenter(scoredtxt .. score), (screenheight/4)+(screenheight/3), 14)
-	print(starttxt, hcenter(starttxt), (screenheight/4)+(screenheight/2),12)			
+	map(0,0,0,0,128,32)
+	print(titletxt, hcenter(titletxt), screenheight/3, 4)
+	print (scoredtxt, hcenter(scoredtxt), (screenheight/4)+(screenheight/4), 14)
+	print(starttxt, hcenter(starttxt), (screenheight/4)+(screenheight/3),4)			
 end
 
 -- handle button inputs
@@ -215,8 +205,8 @@ function playercontrol()
 	-- check if the player is still onscreen
 	if (player.x <= 0) then player.x = 0 end
 	if (player.x >= screenwidth - player.width) then player.x = screenwidth - player.height end
-	if (player.y <= 0) then player.y = 0 end
-	if (player.y >= (screenheight - player.height)+10) then player.y = screenheight - player.height end
+	if (player.y <= 10) then player.y = 10 end
+	if (player.y >= ((screenheight - player.height)-7)) then player.y = ((screenheight - player.height)-7) end
 end
 
 -- draw player sprite
