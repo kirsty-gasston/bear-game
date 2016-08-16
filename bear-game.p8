@@ -202,7 +202,7 @@ function playercontrol()
 	if (btn(0)) then player.x-=spd end
 	if (btn(1)) then player.x+=spd end
 	if (btn(2)) then player.y-=spd end
-	if (btn(3)) then player.y+=spd end
+	if (btn(4)) then player.y-=spd else player.y += spd end
 	-- check if the player is still onscreen
 	if (player.x <= 0) then player.x = 0 end
 	if (player.x >= screenwidth - player.width) then player.x = screenwidth - player.height end
