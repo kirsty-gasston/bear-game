@@ -117,6 +117,10 @@ function gameupdate()
 		clawattack = false
 		player.y += spd		
 	end
+	if (player.y <= 25) then
+		score-=50
+		sfx(2)
+	end
 end	
 
 function endsceneupdate ()
@@ -201,7 +205,7 @@ function gamedraw()
 	print("time: " ..flr(timer), 85, 4, 7)
 	map(0,0,0,0,128,32)
 	salmondraw()
-	playerdraw()
+	playerdraw() 
 end
 
 function salmondraw()
