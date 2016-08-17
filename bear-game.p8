@@ -22,8 +22,8 @@ selected = 0
 
 --salmon vars
 salmonspr = 0
+ripples = {}
 salmons = {}
-jumpingsalmons = {}
 -- game loop
 
 function _init()
@@ -31,7 +31,7 @@ function _init()
 -- as the game loads
 
  for x=1,5 do 
-	 add(salmons, spawnsalmon())
+	 add(ripples, spawnripple())
  end
  resetjump()
 end
@@ -58,19 +58,19 @@ function _draw()
 end
 
 -- init functions
-function spawnsalmon() 
-local salmon = {}
-      salmon.x = rnd(screenwidth)
-      salmon.y = rnd(82)+10
-      salmon.width = 8
-      salmon.height = 8
-      salmon.jumping = false
-return salmon
+function spawnripple() 
+local ripple = {}
+      ripple.x = rnd(90)+10
+      ripple.y = rnd(40)+40
+      ripple.width = 8
+      ripple.height = 8
+      ripple.jumping = false
+return ripple
 end
 
 function resetjump()
 	jumptimer = rnd(5 * fps)+2
-	selected = rnd(count(salmons)) --rnd(count(salmons))			
+	selected = rnd(count(ripples)) --rnd(count(ripples))			
 	jumptimer = flr(abs(jumptimer))
 	selected = flr(abs(selected)) + 1
 end
@@ -85,9 +85,10 @@ end
 function gameupdate()
 	jumptimer-=1
 	if(jumptimer <= 0) then
-		add(jumpingsalmons,salmonjump(salmons[selected].x, salmons[selected].y))
-		salmons[selected].x = rnd(screenwidth)
-		salmons[selected].y = rnd(82)+10
+		add(salmons,salmonjump(ripples[selected].x, ripples[selected].y))
+		ripples[selected].x = rnd(screenwidth)
+		ripples[selected].y = rnd(82)+10
+		add(ripples, spawnripple())
 		resetjump()
 		sfx(0)
 	end
@@ -105,6 +106,7 @@ function endsceneupdate ()
   scene=1
   score=0
   timer=61
+  salmons = {}
  end
 end
 
@@ -114,23 +116,23 @@ function salmonupdate()
 		salmonspr = 0
 	end
 	
-	for jumpingsalmon in all(jumpingsalmons) do 
-		jumpingsalmon.y -= 1
+	for salmon in all(salmons) do 
+		salmon.y -= 1
 		
-		if(jumpingsalmon.y < jumpingsalmon.prevy - 10) then
+		if(salmon.y < salmon.prevy - 10) then
 			
-			if(jumpingsalmon.y < jumpingsalmon.prevy) then
-				jumpingsalmon.y += 1
+			if(salmon.y < salmon.prevy) then
+				salmon.y += 1
 			end
 			
 		end
 		
-		if iscolliding(player,jumpingsalmon) then
-	 	if jumpingsalmon.jumping == true then
+		if iscolliding(player,salmon) then
+	 	if salmon.jumping == true then
    	score+=50
    	player.y=screenheight-7
    	sfx(1) 
-   	del(jumpingsalmons, jumpingsalmon)
+   	del(salmons, salmon)
 			end
 		end
 	end
@@ -139,16 +141,16 @@ function salmonupdate()
 end
 
 function salmonjump(x, y) 
-	local jumpingsalmon = {}
-							jumpingsalmon.x = x 
-	 					jumpingsalmon.y = y 
-	 					jumpingsalmon.prevx = jumpingsalmon.x
-	 					jumpingsalmon.prevy = jumpingsalmon.y
-							jumpingsalmon.width = 16
-      	jumpingsalmon.height = 8
-							jumpingsalmon.jumping = true
+	local salmon = {}
+							salmon.x = x 
+	 					salmon.y = y 
+	 					salmon.prevx = salmon.x
+	 					salmon.prevy = salmon.y
+							salmon.width = 16
+      	salmon.height = 8
+							salmon.jumping = true
 							
-	return jumpingsalmon
+	return salmon
 end
 
 
@@ -162,8 +164,9 @@ function titledraw()
 	print(titletxt, hcenter(titletxt), screenheight/4, 4)
 	rectfill(0,(screenheight/2.5),45,((screenheight/2.5)+7))
 	spr(17,45,(screenheight/2.5))
-	spr(5,80, (screenheight/2.5))
-	spr(6,88, (screenheight/2.5))
+	spr(43,80, (screenheight/2.5))
+	spr(44,88, (screenheight/2.5))
+ spr(27,80, ((screenheight/2.5)-8))
 	print(instructtxt, hcenter(instructtxt), (screenheight/4)+(screenheight/3), 14)
 	print(instructtxt2, hcenter(instructtxt2), (screenheight/4)+(screenheight/2.5), 14)
 	print(starttxt, hcenter(starttxt), (screenheight/4)+(screenheight/2),12)			
@@ -180,22 +183,23 @@ function gamedraw()
 end
 
 function salmondraw()
- for salmon in all(salmons) do 
+ for ripple in all(ripples) do 
 			-- show ripple sprite
 			if salmonspr < (fps*2/4) then
-	 		spr(18, salmon.x, salmon.y)
+	 		spr(18, ripple.x, ripple.y)
 	 	elseif salmonspr < (fps*2/2) then
-	 		spr(19, salmon.x, salmon.y)
+	 		spr(19, ripple.x, ripple.y)
 	 	elseif salmonspr < (fps*2/2) + (fps*2/4) then
-	 		spr(21, salmon.x, salmon.y)
+	 		spr(21, ripple.x, ripple.y)
 	 	else 
-	 		spr(19, salmon.x, salmon.y)
+	 		spr(19, ripple.x, ripple.y)
 			end
 	end
 	
-	for jumpingsalmon in all(jumpingsalmons) do
-		spr(5, jumpingsalmon.x, jumpingsalmon.y)
-		spr(6, jumpingsalmon.x + 7, jumpingsalmon.y)
+	for salmon in all(salmons) do
+		spr(43, salmon.x, salmon.y)
+		spr(27, salmon.x, salmon.y-8)
+		spr(44, salmon.x+8, salmon.y)
 	end
 end
 
