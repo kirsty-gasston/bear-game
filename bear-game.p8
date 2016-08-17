@@ -20,7 +20,7 @@ fps = 30 -- frame per second
 jumptimer = 0
 destroytimer = 0
 selected = 0
-
+clawattack = false
 --salmon vars
 salmonspr = 0
 ripples = {}
@@ -108,6 +108,12 @@ function gameupdate()
 	playercontrol()
 	salmonupdate()
 	endsceneupdate()
+	if(clawattack == true and player.y > 25) then
+		player.y -= spd
+	else 
+		clawattack = false
+		player.y += spd		
+	end
 end	
 
 function endsceneupdate ()
@@ -142,7 +148,8 @@ function salmonupdate()
 		if iscolliding(player,salmon) then
 	 	if salmon.jumping == true then
    	score+=50
-   	player.y=screenheight-7
+   	player.y += spd
+   	clawattack = false
    	sfx(1) 
    	del(salmons, salmon)
 			end
@@ -226,26 +233,13 @@ function endscenedraw()
 	print(starttxt, hcenter(starttxt), screenheight/2,6)			
 end
 
-function clawattack() 
---wrapped if currently not working
-	local isrunning = false
-	if isrunning == false then
-	while (player.y > 20) do
-		isrunning=true
-		player.y-=spd
-		if(player.y <= 20) then
-			isrunning=false
-			player.y+=spd
-			end
-	end
-	end
-end
-
 -- handle button inputs
 function playercontrol()
 	if (btn(0)) then player.x-=spd end
 	if (btn(1)) then player.x+=spd end
-	if (btnp(2)) then clawattack() end
+	if (btnp(2)) then 
+		clawattack = true
+	end
 	--if (btn(3)) then player.y+=spd end
 	-- check if the player is still onscreen
 	if (player.x <= 0) then player.x = 0 end
