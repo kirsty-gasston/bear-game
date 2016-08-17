@@ -92,8 +92,8 @@ function gameupdate()
 	jumptimer-=1
 	if(jumptimer <= 0) then
 		add(salmons,salmonjump(ripples[selected].x, ripples[selected].y))
-		ripples[selected].x = rnd(screenwidth)
-		ripples[selected].y = rnd(82)+10
+		ripples[selected].x = rnd(90)+10
+		ripples[selected].y = rnd(40)+40
 		add(ripples, spawnripple())
 		resetjump()
 		sfx(0)
@@ -116,10 +116,6 @@ function gameupdate()
 	else 
 		clawattack = false
 		player.y += spd		
-	end
-	if (player.y <= 25) then
-		score-=50
-		sfx(2)
 	end
 end	
 
@@ -205,7 +201,7 @@ function gamedraw()
 	print("time: " ..flr(timer), 85, 4, 7)
 	map(0,0,0,0,128,32)
 	salmondraw()
-	playerdraw() 
+	playerdraw()
 end
 
 function salmondraw()
