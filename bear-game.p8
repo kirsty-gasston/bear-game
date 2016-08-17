@@ -159,7 +159,13 @@ function salmonupdate()
 		end
 	end
 	
-	
+	if (player.y <= 25 and score != 0) then
+		score-=50
+		sfx(2)
+		else if(player.y <= 25 and score == 0) then
+		sfx(2)
+		end	
+	end
 end
 
 function salmonjump(x, y) 
