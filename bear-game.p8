@@ -18,6 +18,7 @@ spd=4
 timer=61
 fps = 30 -- frame per second
 jumptimer = 0
+destroytimer = 0
 selected = 0
 
 --salmon vars
@@ -33,6 +34,7 @@ function _init()
  for x=1,5 do 
 	 add(ripples, spawnripple())
  end
+ resetdestroy()
  resetjump()
 end
 
@@ -75,6 +77,10 @@ function resetjump()
 	selected = flr(abs(selected)) + 1
 end
 
+function resetdestroy()
+	destroytimer = rnd(10 * fps)+5
+	destroytimer = flr(abs(destroytimer))
+end
 -- update functions
 function titleupdate()
 	if btnp(4) then
@@ -91,6 +97,12 @@ function gameupdate()
 		add(ripples, spawnripple())
 		resetjump()
 		sfx(0)
+	end
+	destroytimer-=1
+	if(destroytimer <=0) then
+	 del(salmons,salmons[1]) -- delete first spawned salmon
+	 resetdestroy() -- reset destroy timer
+	 sfx(2) 
 	end
 	timer-=(1/fps)
 	playercontrol()
@@ -214,12 +226,27 @@ function endscenedraw()
 	print(starttxt, hcenter(starttxt), screenheight/2,6)			
 end
 
+function clawattack() 
+--wrapped if currently not working
+	local isrunning = false
+	if isrunning == false then
+	while (player.y > 20) do
+		isrunning=true
+		player.y-=spd
+		if(player.y <= 20) then
+			isrunning=false
+			player.y+=spd
+			end
+	end
+	end
+end
+
 -- handle button inputs
 function playercontrol()
 	if (btn(0)) then player.x-=spd end
 	if (btn(1)) then player.x+=spd end
-	if (btn(2)) then player.y-=spd end
-	if (btn(3)) then player.y+=spd end
+	if (btnp(2)) then clawattack() end
+	--if (btn(3)) then player.y+=spd end
 	-- check if the player is still onscreen
 	if (player.x <= 0) then player.x = 0 end
 	if (player.x >= screenwidth - player.width) then player.x = screenwidth - player.height end
