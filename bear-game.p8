@@ -128,6 +128,7 @@ function endsceneupdate ()
   score=0
   timer=61
   salmons = {}
+  ripples = {}
  end
 end
 
